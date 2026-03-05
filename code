@@ -1,0 +1,32 @@
+#include <Servo.h>
+Servo myservo;   // Create servo object
+const int servopin=6;
+const int ldrpin=9;
+int ldrvalue;
+void setup() {
+  myservo.attach(servopin);   // Attach servo to pin 9
+  pinMode(ldrpin,INPUT);
+}
+
+void loop() {
+ ldrvalue=digitalRead(ldrpin);
+ if(ldrvalue==HIGH){
+  for(int i=myservo.read();i<=180;i++){
+    myservo.write(i);
+    delay(10);
+
+    ldrvalue=digitalRead(ldrpin);
+    if(ldrvalue==LOW){
+      return;
+    }
+  }
+  for(int i=myservo.read();i>=0;i--){
+    myservo.write(i);
+    delay(10);
+    ldrvalue=digitalRead(ldrpin);
+    if(ldrvalue==LOW){
+      return;
+    }
+  }
+ }
+}
